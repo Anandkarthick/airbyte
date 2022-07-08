@@ -5,30 +5,30 @@
       "type": ["null", "object"],
       "properties": {
         "forecastValue": {
-          "type": ["string"]
+          "type": ["null", "string"]
         },
         "currency": {
           "type": ["null", "object"],
           "properties": {
             "code": {
-              "type": ["string"]
+              "type": ["null", "string"]
             },
             "symbol": {
-              "type": ["string"]
+              "type": ["null", "string"]
             }
           }
         },
         "timeFrameId": {
-          "type": ["string"]
+          "type": ["null", "string"]
         },
         "timePeriodId": {
-          "type": ["string"]
+          "type": ["null", "string"]
         },
         "fieldId": {
           "type":[ "string"]
         },
         "userId": {
-          "type": ["string"]
+          "type": ["null", "string"]
         }
       }
     }

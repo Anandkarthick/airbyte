@@ -4,6 +4,7 @@
 
 
 from abc import ABC
+from asyncio import streams
 from distutils.command.config import config
 from typing import Any, Iterable, List, Mapping, MutableMapping, Optional, Tuple
 
@@ -60,22 +61,13 @@ class ClariForecastStream(HttpStream, ABC):
 
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(kwargs['authenticator'])
-        self.header = config['apikey']
-        self.params = config
-        config.pop('forecastId')
-        config.pop('apikey')
-
-    def path(
-        self, 
-        stream_state: Mapping[str, Any] = None, 
-        stream_slice: Mapping[str, Any] = None, 
-        next_page_token: Mapping[str, Any] = None
-    ) -> str:
-        
-        return "forecast"
+        self.config = config
+        self.header = {}
+        self.params = {}
+        self.response_data = {}
     
     def request_headers(self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, Any] = None, next_page_token: Mapping[str, Any] = None) -> Mapping[str, Any]:
-        return {'apiKey': self.header}
+        return {"apikey" : self.config["apikey"] }
 
     def next_page_token(self, response: requests.Response) -> Optional[Mapping[str, Any]]:
         """
@@ -104,6 +96,9 @@ class ClariForecastStream(HttpStream, ABC):
         TODO: Override this method to define any query parameters to be set. Remove this method if you don't need to define request params.
         Usually contains common params e.g. pagination size etc.
         """
+        for key_value in self.config.keys():
+            if key_value not in ['apikey']:
+                self.params.update({key_value : self.config[key_value]})
         return self.params
 
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
@@ -111,33 +106,18 @@ class ClariForecastStream(HttpStream, ABC):
         TODO: Override this method to define how a response is parsed.
         :return an iterable containing each record in the response
         """
-        response_data = response.json()
-        #{"entries" : response_data.get("entries", [])}
-        return response_data.get("entries", [])
+        if not self.response_data:
+            self.response_data = response.json()
+        else:
+            pass
+        return self.response_data
 
 
-class Customers(ClariForecastStream):
-    """
-    TODO: Change class name to match the table/data source this stream corresponds to.
-    """
-
-    # TODO: Fill in the primary key. Required. This is usually a unique field in the stream, like an ID or a timestamp.
-    primary_key = "customer_id"
-
-    def path(
-        self, stream_state: Mapping[str, Any] = None, stream_slice: Mapping[str, Any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> str:
-        """
-        TODO: Override this method to define the path this stream corresponds to. E.g. if the url is https://example-api.com/v1/customers then this
-        should return "customers". Required.
-        """
-        return "customers"
-
-class ForecastEntries(ClariForecastStream):
+class Entries(ClariForecastStream):
 
     url_base = "https://api.clari.com/v4/forecast/"
 
-    # primary key is not available in clari. Created at is added in the response
+    # primary key is not available in clari.
     primary_key = None
 
     def __init(self, config: Mapping[str, Any], **kwargs):
@@ -145,6 +125,78 @@ class ForecastEntries(ClariForecastStream):
 
     def path(self, **kwargs):
         return "forecast"
+    
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_data = super().parse_response(response, **kwargs)
+        return response_data.get("entries", [])
+
+class Users(ClariForecastStream):
+
+    url_base = "https://api.clari.com/v4/forecast/"
+
+    # primary key is not available in clari.
+    primary_key = None
+
+    def __init(self, config: Mapping[str, Any], **kwargs):
+        super().__init__()
+
+    def path(self, **kwargs):
+        return "forecast"
+    
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_data = super().parse_response(response, **kwargs)
+        return response_data.get("users", [])
+
+class Fields(ClariForecastStream):
+
+    url_base = "https://api.clari.com/v4/forecast/"
+
+    # primary key is not available in clari.
+    primary_key = None
+
+    def __init(self, config: Mapping[str, Any], **kwargs):
+        super().__init__()
+
+    def path(self, **kwargs):
+        return "forecast"
+    
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_data = super().parse_response(response, **kwargs)
+        return response_data.get("fields", [])
+
+class Timeperiods(ClariForecastStream):
+
+    url_base = "https://api.clari.com/v4/forecast/"
+
+    # primary key is not available in clari.
+    primary_key = None
+
+    def __init(self, config: Mapping[str, Any], **kwargs):
+        super().__init__()
+
+    def path(self, **kwargs):
+        return "forecast"
+    
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_data = super().parse_response(response, **kwargs)
+        return response_data.get("timePeriods", [])
+
+class Timeframes(ClariForecastStream):
+
+    url_base = "https://api.clari.com/v4/forecast/"
+
+    # primary key is not available in clari.
+    primary_key = None
+
+    def __init(self, config: Mapping[str, Any], **kwargs):
+        super().__init__()
+
+    def path(self, **kwargs):
+        return "forecast"
+    
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_data = super().parse_response(response, **kwargs)
+        return response_data.get("timeFrames", [])
 
 # Basic incremental stream
 class IncrementalClariForecastStream(ClariForecastStream, ABC):
@@ -229,11 +281,6 @@ class SourceClariForecast(AbstractSource):
         :param logger:  logger object
         :return Tuple[bool, any]: (True, None) if the input config can be used to connect to the API successfully, (False, error) otherwise.
         """
-        # check forecastId
-        forecast_ids = {"forecast", "renewals", "forecast_year"}
-        forecast = config["forecastId"]
-        if forecast not in forecast_ids:
-            return False, f"Input {forecast} is invalid. Please input one of the following: {forecast_ids}"
         # check typesToExport
         types_to_export = {"forecast", "quota", "forecast_updated", "adjustment", "crm_total"}
         incoming_type = config["typesToExport"]
@@ -250,4 +297,5 @@ class SourceClariForecast(AbstractSource):
         # TODO remove the authenticator if not required.
         #auth = TokenAuthenticator(token="api_key")  # Oauth2Authenticator is also available if you need oauth support
         auth = TokenAuthenticator(token=config["apikey"])
-        return [ForecastEntries(config, authenticator=auth)]
+        streams = [Entries(config, authenticator=auth), Users(config, authenticator=auth), Fields(config, authenticator=auth), Timeperiods(config, authenticator=auth), Timeframes(config, authenticator=auth)]
+        return streams

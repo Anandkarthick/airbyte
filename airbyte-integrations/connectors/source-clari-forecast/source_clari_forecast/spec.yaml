@@ -5,7 +5,6 @@ connectionSpecification:
   type: object
   required:
     - apikey
-    - forecastId
     - typesToExport
   additionalProperties: false
   properties:
@@ -13,30 +12,22 @@ connectionSpecification:
       type: string
       description: Authentication token.
       order: 0
-    forecastId:
-      type: string
-      description: Forecast tab on which to run the export on.
-      order: 1
-      example:
-        - forecast
-        - renewals
-        - forecast_year
     timePeriod:
       type: string
       description: Quarter for when you'd like to run your export. Must be passed in as a string (e.g. "YYYY_QQ")
-      order: 2
+      order: 1
       example:
         - 2020_Q3
     scopeId:
       type: string
       description: Specifies the scopeId to use as the root for the hierarchy that the export will run against.
-      order: 3
+      order: 2
       examples:
         - 1905::MGR
     typesToExport:
       type: string
       description: Forecast data types you'd like to export
-      order: 4
+      order: 3
       examples:
         - forecast
         - quota
