@@ -5,104 +5,97 @@
               "name": "entries",
               "json_schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "type": ["null", "array"],
-                "items": {
-                  "type": ["null", "object"],
-                  "properties": {
-                    "forecastValue": {
-                      "type": ["string"]
-                    },
-                    "currency": {
-                      "type": ["null", "object"],
-                      "properties": {
-                        "code": {
-                          "type": ["string"]
-                        },
-                        "symbol": {
-                          "type": ["string"]
-                        }
+                "type": "object",
+                "properties": {
+                  "forecastValue": {
+                    "type": ["null", "number"]
+                  },
+                  "currency": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "symbol": {
+                        "type": "string"
                       }
-                    },
-                    "timeFrameId": {
-                      "type": ["string"]
-                    },
-                    "timePeriodId": {
-                      "type": ["string"]
-                    },
-                    "fieldId": {
-                      "type":[ "string"]
-                    },
-                    "userId": {
-                      "type": ["string"]
                     }
+                  },
+                  "timeFrameId": {
+                    "type": "string"
+                  },
+                  "timePeriodId": {
+                    "type": "string"
+                  },
+                  "fieldId": {
+                    "type": "string"
+                  },
+                  "userId": {
+                    "type": "string"
                   }
                 }
-                
               },
               "supported_sync_modes": ["full_refresh"]
             },
             "sync_mode": "full_refresh",
-            "destination_sync_mode": "overwrite"
+            "destination_sync_mode": "append"
           },
           {
             "stream": {
               "name": "users",
               "json_schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "type": ["null", "array"],
-                "items": {
-                    "type": ["null", "object"],
-                    "properties": {
-                        "userId": {
-                            "type": ["null", "string"]
-                          },
-                        "name": {
-                            "type": ["null", "string"]
-                          },
-                        "scopeId": {
-                            "type": ["null", "string"]
-                          },
-                        "crmId": {
-                            "type": ["null", "string"]
-                          },
-                        "hierarchyId": {
-                            "type": ["null", "string"]
-                          },
-                        "hierarchyName": {
-                            "type": ["null", "string"]
-                          },
-                        "parentHierarchyId": {
-                            "type": ["null", "string"]
-                        },
-                        "parentHierarchyName": {
-                            "type": ["null", "string"]
-                        }
-                
-                    }
-                }    
-              },
+                "type": "object",
+                "properties": {
+                  "userId": {
+                      "type": ["null", "string"]
+                    },
+                  "name": {
+                      "type": ["null", "string"]
+                    },
+                  "scopeId": {
+                    "type": ["null", "string"]
+                  },
+                  "crmId": {
+                      "type": ["null", "string"]
+                    },
+                  "hierarchyId": {
+                      "type": ["null", "string"]
+                    },
+                  "hierarchyName": {
+                      "type": ["null", "string"]
+                    },
+                  "parentHierarchyId": {
+                      "type": ["null", "string"]
+                  },
+                  "parentHierarchyName": {
+                      "type": ["null", "string"]
+                  }
+            
+              }   
+            },
               "supported_sync_modes": ["full_refresh"]
             },
             "sync_mode": "full_refresh",
-            "destination_sync_mode": "overwrite"
+            "destination_sync_mode": "append"
           },
           {
             "stream": {
               "name": "fields",
               "json_schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "type": ["null", "array"],
+                "type": "array",
                 "items": {
-                    "type": ["null", "object"],
+                    "type": "object",
                     "properties": {
                         "fieldId": {
-                            "type": ["null", "string"]
+                            "type": "string"
                           },
                         "fieldName": {
-                            "type": ["null", "string"]
+                            "type": "string"
                           },
                         "fieldType": {
-                            "type": ["null", "string"]
+                            "type": "string"
                           }
                     }
                 }    
@@ -110,39 +103,39 @@
               "supported_sync_modes": ["full_refresh"]
             },
             "sync_mode": "full_refresh",
-            "destination_sync_mode": "overwrite"
+            "destination_sync_mode": "append"
           },
           {
             "stream": {
               "name": "timeperiods",
               "json_schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "type": ["null", "array"],
+                "type": "array",
                 "items": {
-                    "type": ["null", "object"],
+                    "type": "object",
                     "properties": {
                         "timePeriodId": {
-                            "type": ["null", "string"]
+                            "type": "string"
                           },
                         "type": {
-                            "type": ["null", "string"]
+                            "type": "string"
                           },
                         "label": {
-                            "type": ["null", "string"]
+                            "type": "string"
                           },
                         "year": {
-                            "type": ["null", "string"]
+                            "type": "string"
                           },
                         "startDate": {
-                            "type": ["null", "string"],
+                            "type": "string",
                             "format": "date"
                           },
                         "endDate": {
-                            "type": ["null", "string"],
+                            "type": "string",
                             "format": "date"
                           },
                         "crmId": {
-                            "type": ["null", "string"]
+                            "type": "string"
                         }
                     }
                 }    
@@ -150,26 +143,26 @@
               "supported_sync_modes": ["full_refresh"]
             },
             "sync_mode": "full_refresh",
-            "destination_sync_mode": "overwrite"
+            "destination_sync_mode": "append"
           },
           {
             "stream": {
               "name": "timeframes",
               "json_schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "type": ["null", "array"],
+                "type": "array",
                 "items": {
-                    "type": ["null", "object"],
+                    "type": "object",
                     "properties": {
                         "timeFrameId": {
-                            "type": ["null", "string"]
+                            "type": "string"
                           },
                         "startDate": {
-                            "type": ["null", "string"],
+                            "type": "string",
                             "format": "date"
                           },
                         "endDate": {
-                            "type": ["null", "string"],
+                            "type": "string",
                             "format": "date"
                           }
                     }
@@ -178,7 +171,7 @@
               "supported_sync_modes": ["full_refresh"]
             },
             "sync_mode": "full_refresh",
-            "destination_sync_mode": "overwrite"
+            "destination_sync_mode": "append"
           }
     ]
 }

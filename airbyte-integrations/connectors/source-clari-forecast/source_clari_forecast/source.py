@@ -4,15 +4,13 @@
 
 
 from abc import ABC
-from asyncio import streams
-from distutils.command.config import config
 from typing import Any, Iterable, List, Mapping, MutableMapping, Optional, Tuple
 
 import requests
 from airbyte_cdk.sources import AbstractSource
 from airbyte_cdk.sources.streams import Stream
 from airbyte_cdk.sources.streams.http import HttpStream
-from airbyte_cdk.sources.streams.http.auth import NoAuth, TokenAuthenticator
+from airbyte_cdk.sources.streams.http.auth import TokenAuthenticator
 
 """
 TODO: Most comments in this class are instructive and should be deleted after the source is implemented.
@@ -60,14 +58,16 @@ class ClariForecastStream(HttpStream, ABC):
     url_base = "https://api.clari.com/v4/forecast/"
 
     def __init__(self, config: Mapping[str, Any], **kwargs):
-        super().__init__(kwargs['authenticator'])
+        super().__init__(kwargs["authenticator"])
         self.config = config
         self.header = {}
         self.params = {}
         self.response_data = {}
-    
-    def request_headers(self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, Any] = None, next_page_token: Mapping[str, Any] = None) -> Mapping[str, Any]:
-        return {"apikey" : self.config["apikey"] }
+
+    def request_headers(
+        self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, Any] = None, next_page_token: Mapping[str, Any] = None
+    ) -> Mapping[str, Any]:
+        return {"apikey": self.config["apikey"]}
 
     def next_page_token(self, response: requests.Response) -> Optional[Mapping[str, Any]]:
         """
@@ -87,7 +87,7 @@ class ClariForecastStream(HttpStream, ABC):
         return None
 
     def request_params(
-        self, 
+        self,
         stream_state: Mapping[str, Any],
         stream_slice: Mapping[str, Any] = None,
         next_page_token: Mapping[str, Any] = None,
@@ -97,8 +97,8 @@ class ClariForecastStream(HttpStream, ABC):
         Usually contains common params e.g. pagination size etc.
         """
         for key_value in self.config.keys():
-            if key_value not in ['apikey']:
-                self.params.update({key_value : self.config[key_value]})
+            if key_value not in ["apikey"]:
+                self.params.update({key_value: self.config[key_value]})
         return self.params
 
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
@@ -125,10 +125,11 @@ class Entries(ClariForecastStream):
 
     def path(self, **kwargs):
         return "forecast"
-    
+
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
         response_data = super().parse_response(response, **kwargs)
         return response_data.get("entries", [])
+
 
 class Users(ClariForecastStream):
 
@@ -142,10 +143,11 @@ class Users(ClariForecastStream):
 
     def path(self, **kwargs):
         return "forecast"
-    
+
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
         response_data = super().parse_response(response, **kwargs)
         return response_data.get("users", [])
+
 
 class Fields(ClariForecastStream):
 
@@ -159,10 +161,11 @@ class Fields(ClariForecastStream):
 
     def path(self, **kwargs):
         return "forecast"
-    
+
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
         response_data = super().parse_response(response, **kwargs)
         return response_data.get("fields", [])
+
 
 class Timeperiods(ClariForecastStream):
 
@@ -176,10 +179,11 @@ class Timeperiods(ClariForecastStream):
 
     def path(self, **kwargs):
         return "forecast"
-    
+
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
         response_data = super().parse_response(response, **kwargs)
         return response_data.get("timePeriods", [])
+
 
 class Timeframes(ClariForecastStream):
 
@@ -193,10 +197,11 @@ class Timeframes(ClariForecastStream):
 
     def path(self, **kwargs):
         return "forecast"
-    
+
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
         response_data = super().parse_response(response, **kwargs)
         return response_data.get("timeFrames", [])
+
 
 # Basic incremental stream
 class IncrementalClariForecastStream(ClariForecastStream, ABC):
@@ -295,7 +300,13 @@ class SourceClariForecast(AbstractSource):
         :param config: A Mapping of the user input configuration as defined in the connector spec.
         """
         # TODO remove the authenticator if not required.
-        #auth = TokenAuthenticator(token="api_key")  # Oauth2Authenticator is also available if you need oauth support
+        # auth = TokenAuthenticator(token="api_key")  # Oauth2Authenticator is also available if you need oauth support
         auth = TokenAuthenticator(token=config["apikey"])
-        streams = [Entries(config, authenticator=auth), Users(config, authenticator=auth), Fields(config, authenticator=auth), Timeperiods(config, authenticator=auth), Timeframes(config, authenticator=auth)]
+        streams = [
+            Entries(config, authenticator=auth),
+            Users(config, authenticator=auth),
+            Fields(config, authenticator=auth),
+            Timeperiods(config, authenticator=auth),
+            Timeframes(config, authenticator=auth),
+        ]
         return streams
