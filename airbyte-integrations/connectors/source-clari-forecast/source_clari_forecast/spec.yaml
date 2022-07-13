@@ -5,32 +5,49 @@ connectionSpecification:
   type: object
   required:
     - apikey
-    - typesToExport
+    - basePath
+    - forecastId
   additionalProperties: false
   properties:
+    basePath:
+      type: string
+      description: Basepath for API
+      order: 0
+      examples:
+        - v3
+        - v4
     apikey:
       type: string
       description: Authentication token.
-      order: 0
+      order: 1
+    forecastId:
+      type: string
+      description: Forecast tab on which to run the export on.
+      order: 2
+      examples:
+        - forecast
+        - renewals
+        - forecast_year
     timePeriod:
       type: string
       description: Quarter for when you'd like to run your export. Must be passed in as a string (e.g. "YYYY_QQ")
-      order: 1
+      order: 3
       example:
         - 2020_Q3
     scopeId:
       type: string
       description: Specifies the scopeId to use as the root for the hierarchy that the export will run against.
-      order: 2
+      order: 4
       examples:
         - 1905::MGR
     typesToExport:
       type: string
-      description: Forecast data types you'd like to export
-      order: 3
-      examples:
-        - forecast
-        - quota
-        - forecast_updated
-        - adjustment
-        - crm_total
+      description: Forecast data types you'd like to export.
+      order: 5
+      examples: 
+        - default
+          - forecast indicates the actual amount entered by the individual contributor, and is associated with the forecast call fields (i.e. Commit or Most Likely, Best Case or Upside, etc.).
+          - forecast_updated indicates whether or not the individual contributor actually went into Forecasting and updated their call(s) or number(s), and this data type is associated with forecast call fields.
+        - quota indicates the value from the Quota field in Forecasting, and this data type is associated with Quota fields (i.e. Quota, Plan, Budget, etc.).
+        - adjustment indicates the adjusted call/number that a forecasting manager entered when they made a manager override to their report's call/number, and this data type is associated with forecast call fields.
+        - crm_total indicates the crm aggregation value for an associated field and owner is desired for the fields returned in the payload.

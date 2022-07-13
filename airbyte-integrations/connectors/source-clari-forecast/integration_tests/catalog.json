@@ -2,7 +2,7 @@
   "streams": [
       {
         "stream": {
-          "name": "entries",
+          "name": "forecast_entries",
           "json_schema": {
             "$schema": "http://json-schema.org/draft-07/schema#",
             "type": "object",
@@ -11,15 +11,18 @@
                 "type": ["null", "number"]
               },
               "currency": {
-                "type": "object",
+                "type": ["null", "object"],
                 "properties": {
                   "code": {
-                    "type": "string"
+                    "type": ["null", "string"]
                   },
                   "symbol": {
-                    "type": "string"
+                    "type": ["null", "string"]
                   }
                 }
+              },
+              "isUpdated":{
+                "type": "boolean"
               },
               "timeFrameId": {
                 "type": "string"
@@ -32,6 +35,12 @@
               },
               "userId": {
                 "type": "string"
+              },
+              "updatedBy": {
+                "type": "string"
+              },
+              "updatedOn":{
+                "type": ["null", "number"]
               }
             }
           },
@@ -42,7 +51,7 @@
       },
         {
           "stream": {
-            "name": "users",
+            "name": "forecast_users",
             "json_schema": {
               "$schema": "http://json-schema.org/draft-07/schema#",
               "type": "object",
@@ -53,19 +62,11 @@
                 "name": {
                     "type": ["null", "string"]
                   },
+                "email": {
+                    "type": ["null", "string"]
+                  },
                 "scopeId": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": ["null", "string"]
-                    },
-                    "userId": {
-                      "type": ["null", "number"]
-                    },
-                    "userType": {
-                      "type": ["null", "string"]
-                    }
-                  }
+                  "type": ["null", "string"]
                 },
                 "crmId": {
                     "type": ["null", "string"]
@@ -92,24 +93,21 @@
         },
         {
           "stream": {
-            "name": "fields",
+            "name": "forecast_fields",
             "json_schema": {
               "$schema": "http://json-schema.org/draft-07/schema#",
-              "type": "array",
-              "items": {
-                  "type": "object",
-                  "properties": {
-                      "fieldId": {
-                          "type": "string"
-                        },
-                      "fieldName": {
-                          "type": "string"
-                        },
-                      "fieldType": {
-                          "type": "string"
-                        }
+              "type": "object",
+              "properties": {
+                "fieldId": {
+                    "type": "string"
+                  },
+                "fieldName": {
+                    "type": "string"
+                  },
+                "fieldType": {
+                    "type": "string"
                   }
-              }    
+            }   
           },
             "supported_sync_modes": ["full_refresh"]
           },
@@ -118,38 +116,33 @@
         },
         {
           "stream": {
-            "name": "timeperiods",
+            "name": "forecast_timeperiods",
             "json_schema": {
               "$schema": "http://json-schema.org/draft-07/schema#",
-              "type": "array",
-              "items": {
-                  "type": "object",
-                  "properties": {
-                      "timePeriodId": {
-                          "type": "string"
-                        },
-                      "type": {
-                          "type": "string"
-                        },
-                      "label": {
-                          "type": "string"
-                        },
-                      "year": {
-                          "type": "string"
-                        },
-                      "startDate": {
-                          "type": "string",
-                          "format": "date"
-                        },
-                      "endDate": {
-                          "type": "string",
-                          "format": "date"
-                        },
-                      "crmId": {
-                          "type": "string"
-                      }
-                  }
-              }    
+              "type": "object",
+              "properties": {
+                "timePeriodId": {
+                    "type": "string"
+                  },
+                "type": {
+                    "type": "string"
+                  },
+                "label": {
+                    "type": "string"
+                  },
+                "year": {
+                    "type": "string"
+                  },
+                "startDate": {
+                    "type": "string"
+                  },
+                "endDate": {
+                    "type": "string"
+                  },
+                "crmId": {
+                    "type": "string"
+                }
+            }   
             },
             "supported_sync_modes": ["full_refresh"]
           },
@@ -158,26 +151,184 @@
         },
         {
           "stream": {
-            "name": "timeframes",
+            "name": "forecast_timeframes",
             "json_schema": {
               "$schema": "http://json-schema.org/draft-07/schema#",
-              "type": "array",
-              "items": {
-                  "type": "object",
-                  "properties": {
-                      "timeFrameId": {
-                          "type": "string"
-                        },
-                      "startDate": {
-                          "type": "string",
-                          "format": "date"
-                        },
-                      "endDate": {
-                          "type": "string",
-                          "format": "date"
-                        }
+              "type": "object",
+              "properties": {
+                "timeFrameId": {
+                    "type": "string"
+                  },
+                "startDate": {
+                    "type": "string"
+                  },
+                "endDate": {
+                    "type": "string"
                   }
-              }    
+            }   
+            },
+            "supported_sync_modes": ["full_refresh"]
+          },
+          "sync_mode": "full_refresh",
+          "destination_sync_mode": "append"
+        },
+        {
+          "stream": {
+            "name": "forecast_quota_entries",
+            "json_schema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "quotaValue": {
+                  "type": ["null", "number"]
+                },
+                "currency": {
+                  "type": ["null", "object"],
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "symbol": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "timeFrameId": {
+                  "type": "string"
+                },
+                "timePeriodId": {
+                  "type": "string"
+                },
+                "fieldId": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                }
+              }
+          },
+            "supported_sync_modes": ["full_refresh"]
+          },
+          "sync_mode": "full_refresh",
+          "destination_sync_mode": "append"
+        },
+        {
+          "stream": {
+            "name": "forecast_quota_users",
+            "json_schema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "userId": {
+                    "type": ["null", "string"]
+                  },
+                "name": {
+                    "type": ["null", "string"]
+                  },
+                "email": {
+                    "type": ["null", "string"]
+                  },
+                "scopeId": {
+                  "type": ["null", "string"]
+                },
+                "crmId": {
+                    "type": ["null", "string"]
+                  },
+                "hierarchyId": {
+                    "type": ["null", "string"]
+                  },
+                "hierarchyName": {
+                    "type": ["null", "string"]
+                  },
+                "parentHierarchyId": {
+                    "type": ["null", "string"]
+                },
+                "parentHierarchyName": {
+                    "type": ["null", "string"]
+                }
+          
+            }   
+          },
+            "supported_sync_modes": ["full_refresh"]
+          },
+          "sync_mode": "full_refresh",
+          "destination_sync_mode": "append"
+        },
+        {
+          "stream": {
+            "name": "forecast_quota_fields",
+            "json_schema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "fieldId": {
+                    "type": "string"
+                  },
+                "fieldName": {
+                    "type": "string"
+                  },
+                "fieldType": {
+                    "type": "string"
+                  }
+            }   
+          },
+            "supported_sync_modes": ["full_refresh"]
+          },
+          "sync_mode": "full_refresh",
+          "destination_sync_mode": "append"
+        },
+        {
+          "stream": {
+            "name": "forecast_quota_timeframes",
+            "json_schema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "timeFrameId": {
+                    "type": "string"
+                  },
+                "startDate": {
+                    "type": "string"
+                  },
+                "endDate": {
+                    "type": "string"
+                  }
+            }   
+            },
+            "supported_sync_modes": ["full_refresh"]
+          },
+          "sync_mode": "full_refresh",
+          "destination_sync_mode": "append"
+        },
+        {
+          "stream": {
+            "name": "forecast_quota_timeperiods",
+            "json_schema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "timePeriodId": {
+                    "type": "string"
+                  },
+                "type": {
+                    "type": "string"
+                  },
+                "label": {
+                    "type": "string"
+                  },
+                "year": {
+                    "type": "string"
+                  },
+                "startDate": {
+                    "type": "string"
+                  },
+                "endDate": {
+                    "type": "string"
+                  },
+                "crmId": {
+                    "type": "string"
+                }
+            }   
             },
             "supported_sync_modes": ["full_refresh"]
           },

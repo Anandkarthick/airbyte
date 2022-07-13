@@ -2,11 +2,11 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
     "properties": {
-      "forecastValue": {
+      "quotaValue": {
         "type": ["null", "number"]
       },
       "currency": {
-        "type": "object",
+        "type": ["null", "object"],
         "properties": {
           "code": {
             "type": "string"

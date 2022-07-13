@@ -1,177 +1,176 @@
 {
-    "streams": [
-        {
-            "stream": {
-              "name": "entries",
-              "json_schema": {
-                "$schema": "http://json-schema.org/draft-07/schema#",
-                "type": "object",
-                "properties": {
-                  "forecastValue": {
-                    "type": ["null", "number"]
-                  },
-                  "currency": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string"
-                      },
-                      "symbol": {
-                        "type": "string"
-                      }
+  "streams": [
+      {
+          "stream": {
+            "name": "entries",
+            "json_schema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "forecastValue": {
+                  "type": ["null", "number"]
+                },
+                "currency": {
+                  "type": ["null", "object"],
+                  "properties": {
+                    "code": {
+                      "type": ["null", "string"]
+                    },
+                    "symbol": {
+                      "type": ["null", "string"]
                     }
-                  },
-                  "timeFrameId": {
-                    "type": "string"
-                  },
-                  "timePeriodId": {
-                    "type": "string"
-                  },
-                  "fieldId": {
-                    "type": "string"
-                  },
-                  "userId": {
-                    "type": "string"
                   }
+                },
+                "isUpdated":{
+                  "type": "boolean"
+                },
+                "timeFrameId": {
+                  "type": "string"
+                },
+                "timePeriodId": {
+                  "type": "string"
+                },
+                "fieldId": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                },
+                "updatedBy": {
+                  "type": "string"
+                },
+                "updatedOn":{
+                  "type": ["null", "number"]
                 }
-              },
-              "supported_sync_modes": ["full_refresh"]
+              }
             },
-            "sync_mode": "full_refresh",
-            "destination_sync_mode": "append"
+            "supported_sync_modes": ["full_refresh"]
           },
-          {
-            "stream": {
-              "name": "users",
-              "json_schema": {
-                "$schema": "http://json-schema.org/draft-07/schema#",
-                "type": "object",
-                "properties": {
-                  "userId": {
-                      "type": ["null", "string"]
-                    },
-                  "name": {
-                      "type": ["null", "string"]
-                    },
-                  "scopeId": {
+          "sync_mode": "full_refresh",
+          "destination_sync_mode": "append"
+        },
+        {
+          "stream": {
+            "name": "users",
+            "json_schema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "userId": {
                     "type": ["null", "string"]
                   },
-                  "crmId": {
-                      "type": ["null", "string"]
-                    },
-                  "hierarchyId": {
-                      "type": ["null", "string"]
-                    },
-                  "hierarchyName": {
-                      "type": ["null", "string"]
-                    },
-                  "parentHierarchyId": {
-                      "type": ["null", "string"]
+                "name": {
+                    "type": ["null", "string"]
                   },
-                  "parentHierarchyName": {
-                      "type": ["null", "string"]
+                "email": {
+                    "type": ["null", "string"]
+                  },
+                "scopeId": {
+                  "type": ["null", "string"]
+                },
+                "crmId": {
+                    "type": ["null", "string"]
+                  },
+                "hierarchyId": {
+                    "type": ["null", "string"]
+                  },
+                "hierarchyName": {
+                    "type": ["null", "string"]
+                  },
+                "parentHierarchyId": {
+                    "type": ["null", "string"]
+                },
+                "parentHierarchyName": {
+                    "type": ["null", "string"]
+                }
+          
+            }   
+          },
+            "supported_sync_modes": ["full_refresh"]
+          },
+          "sync_mode": "full_refresh",
+          "destination_sync_mode": "append"
+        },
+        {
+          "stream": {
+            "name": "fields",
+            "json_schema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "fieldId": {
+                    "type": "string"
+                  },
+                "fieldName": {
+                    "type": "string"
+                  },
+                "fieldType": {
+                    "type": "string"
                   }
-            
-              }   
-            },
-              "supported_sync_modes": ["full_refresh"]
-            },
-            "sync_mode": "full_refresh",
-            "destination_sync_mode": "append"
+            }   
           },
-          {
-            "stream": {
-              "name": "fields",
-              "json_schema": {
-                "$schema": "http://json-schema.org/draft-07/schema#",
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "fieldId": {
-                            "type": "string"
-                          },
-                        "fieldName": {
-                            "type": "string"
-                          },
-                        "fieldType": {
-                            "type": "string"
-                          }
-                    }
-                }    
-            },
-              "supported_sync_modes": ["full_refresh"]
-            },
-            "sync_mode": "full_refresh",
-            "destination_sync_mode": "append"
+            "supported_sync_modes": ["full_refresh"]
           },
-          {
-            "stream": {
-              "name": "timeperiods",
-              "json_schema": {
-                "$schema": "http://json-schema.org/draft-07/schema#",
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "timePeriodId": {
-                            "type": "string"
-                          },
-                        "type": {
-                            "type": "string"
-                          },
-                        "label": {
-                            "type": "string"
-                          },
-                        "year": {
-                            "type": "string"
-                          },
-                        "startDate": {
-                            "type": "string",
-                            "format": "date"
-                          },
-                        "endDate": {
-                            "type": "string",
-                            "format": "date"
-                          },
-                        "crmId": {
-                            "type": "string"
-                        }
-                    }
-                }    
-              },
-              "supported_sync_modes": ["full_refresh"]
+          "sync_mode": "full_refresh",
+          "destination_sync_mode": "append"
+        },
+        {
+          "stream": {
+            "name": "timeperiods",
+            "json_schema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "timePeriodId": {
+                    "type": "string"
+                  },
+                "type": {
+                    "type": "string"
+                  },
+                "label": {
+                    "type": "string"
+                  },
+                "year": {
+                    "type": "string"
+                  },
+                "startDate": {
+                    "type": "string"
+                  },
+                "endDate": {
+                    "type": "string"
+                  },
+                "crmId": {
+                    "type": "string"
+                }
+            }   
             },
-            "sync_mode": "full_refresh",
-            "destination_sync_mode": "append"
+            "supported_sync_modes": ["full_refresh"]
           },
-          {
-            "stream": {
-              "name": "timeframes",
-              "json_schema": {
-                "$schema": "http://json-schema.org/draft-07/schema#",
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "timeFrameId": {
-                            "type": "string"
-                          },
-                        "startDate": {
-                            "type": "string",
-                            "format": "date"
-                          },
-                        "endDate": {
-                            "type": "string",
-                            "format": "date"
-                          }
-                    }
-                }    
-              },
-              "supported_sync_modes": ["full_refresh"]
+          "sync_mode": "full_refresh",
+          "destination_sync_mode": "append"
+        },
+        {
+          "stream": {
+            "name": "timeframes",
+            "json_schema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "timeFrameId": {
+                    "type": "string"
+                  },
+                "startDate": {
+                    "type": "string"
+                  },
+                "endDate": {
+                    "type": "string"
+                  }
+            }   
             },
-            "sync_mode": "full_refresh",
-            "destination_sync_mode": "append"
-          }
-    ]
+            "supported_sync_modes": ["full_refresh"]
+          },
+          "sync_mode": "full_refresh",
+          "destination_sync_mode": "append"
+        }
+  ]
 }

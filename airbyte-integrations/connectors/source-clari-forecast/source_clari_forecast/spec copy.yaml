@@ -1,0 +1,25 @@
+documentationUrl: https://docsurl.com
+connectionSpecification:
+  $schema: http://json-schema.org/draft-07/schema#
+  title: Clari Forecast Spec
+  type: object
+  required:
+    - apikey
+  additionalProperties: false
+  properties:
+    apikey:
+      type: string
+      description: Authentication token.
+      order: 0
+    timePeriod:
+      type: string
+      description: Quarter for when you'd like to run your export. Must be passed in as a string (e.g. "YYYY_QQ")
+      order: 1
+      example:
+        - 2020_Q3
+    scopeId:
+      type: string
+      description: Specifies the scopeId to use as the root for the hierarchy that the export will run against.
+      order: 2
+      examples:
+        - 1905::MGR
