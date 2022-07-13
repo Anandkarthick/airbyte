@@ -44,10 +44,10 @@ connectionSpecification:
       type: string
       description: Forecast data types you'd like to export.
       order: 5
-      examples: 
+      examples:
         - default
-          - forecast indicates the actual amount entered by the individual contributor, and is associated with the forecast call fields (i.e. Commit or Most Likely, Best Case or Upside, etc.).
-          - forecast_updated indicates whether or not the individual contributor actually went into Forecasting and updated their call(s) or number(s), and this data type is associated with forecast call fields.
-        - quota indicates the value from the Quota field in Forecasting, and this data type is associated with Quota fields (i.e. Quota, Plan, Budget, etc.).
-        - adjustment indicates the adjusted call/number that a forecasting manager entered when they made a manager override to their report's call/number, and this data type is associated with forecast call fields.
-        - crm_total indicates the crm aggregation value for an associated field and owner is desired for the fields returned in the payload.
+          - \n forecast indicates the actual amount entered by the individual contributor, and is associated with the forecast call fields (i.e. Commit or Most Likely, Best Case or Upside, etc.).
+          - \n forecast_updated indicates whether or not the individual contributor actually went into Forecasting and updated their call(s) or number(s), and this data type is associated with forecast call fields.
+        - \n quota indicates the value from the Quota field in Forecasting, and this data type is associated with Quota fields (i.e. Quota, Plan, Budget, etc.).
+        - \n adjustment indicates the adjusted call/number that a forecasting manager entered when they made a manager override to their report's call/number, and this data type is associated with forecast call fields.
+        - \n crm_total indicates the crm aggregation value for an associated field and owner is desired for the fields returned in the payload.
